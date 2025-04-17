@@ -9,8 +9,13 @@ import java.util.List;
 public interface IEmployeeService {
 
     public ResponseDTO deleteEmployee(Long id);
+
     public ResponseDTO updateUser(Long id, EmployeeDTO empDTO);
+
     public List<EmployeeInfo> displayUser();
+
     public EmployeeInfo getUserByID(Long id);
+
+
     public ResponseDTO createUser(EmployeeInfo emp);
 }
