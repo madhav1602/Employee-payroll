@@ -1,9 +1,11 @@
 package com.bridgelabz.employeepayroll.service;
 
 import com.bridgelabz.employeepayroll.dto.EmployeeDTO;
+import com.bridgelabz.employeepayroll.dto.ResponseDTO;
 import com.bridgelabz.employeepayroll.model.EmployeeInfo;
 import com.bridgelabz.employeepayroll.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,15 +18,16 @@ public class EmployeeService implements IEmployeeService{
     private EmployeeRepository employeerepository;
 
 
-    public void deleteEmployee(Long id){
+    public ResponseDTO deleteEmployee(Long id){
         employeerepository.deleteById(id);
+        return new ResponseDTO("User deleted successfully", HttpStatus.OK);
     }
 
-    public String updateUser(Long id, EmployeeDTO empDTO){
+    public ResponseDTO updateUser(Long id, EmployeeDTO empDTO){
         Optional<EmployeeInfo> employee=employeerepository.findById(id);
 
         if(employee.isEmpty()){
-            return null;
+            return new ResponseDTO("No such user Exists", HttpStatus.BAD_REQUEST);
         }
         EmployeeInfo emp=employee.get();
 
@@ -35,7 +38,7 @@ public class EmployeeService implements IEmployeeService{
             emp.setSalary(empDTO.getSalary());
         }
         employeerepository.save(emp);
-        return "User Updated Successfully";
+        return new ResponseDTO("User updated successfully", HttpStatus.OK);
     }
 
     public List<EmployeeInfo> displayUser(){
@@ -50,8 +53,8 @@ public class EmployeeService implements IEmployeeService{
     }
 
 
-    public String createUser(EmployeeInfo emp){
+    public ResponseDTO createUser(EmployeeInfo emp){
         employeerepository.save(emp);
-        return "Added to database successfully";
+        return new ResponseDTO("User created successfully", HttpStatus.CREATED);
     }
 }

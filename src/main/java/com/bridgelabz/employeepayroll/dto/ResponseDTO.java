@@ -1,12 +1,26 @@
 package com.bridgelabz.employeepayroll.dto;
 
+import org.springframework.http.HttpStatus;
+
 public class ResponseDTO {
     private String message;
-    private Object data;
+//    private Object data;
+    private HttpStatus status;
 
-    public ResponseDTO(String message, Object data) {
+
+
+    public ResponseDTO(String message, HttpStatus status) {
         this.message = message;
-        this.data = data;
+//        this.data = data;
+        this.status=status;
+    }
+
+    public HttpStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(HttpStatus status) {
+        this.status = status;
     }
 
     public String getMessage() {
@@ -17,13 +31,13 @@ public class ResponseDTO {
         this.message = message;
     }
 
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
+//    public Object getData() {
+//        return data;
+//    }
+//
+//    public void setData(Object data) {
+//        this.data = data;
+//    }
 
 
 
