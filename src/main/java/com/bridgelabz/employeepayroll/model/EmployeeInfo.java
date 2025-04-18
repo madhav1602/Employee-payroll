@@ -1,39 +1,37 @@
 package com.bridgelabz.employeepayroll.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Service;
+
+import java.lang.annotation.Target;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
+@Data
 public class EmployeeInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long employeeID;
+
+
     private String employeeName;
     private Double salary;
+    private String gender;
+    private String startDate;
+    public String profilePic;
 
-    public Long getEmployeeID() {
-        return employeeID;
-    }
+    @ElementCollection
+    @CollectionTable(name="employee_department", joinColumns = @JoinColumn)
+    @Column(name="department")
+    public List<String> departments;
 
-    public void setEmployeeID(Long employeeID) {
-        this.employeeID = employeeID;
-    }
 
-    public String getEmployeeName() {
-        return employeeName;
-    }
 
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
-    }
-
-    public Double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Double salary) {
-        this.salary = salary;
-    }
 }
+
+
