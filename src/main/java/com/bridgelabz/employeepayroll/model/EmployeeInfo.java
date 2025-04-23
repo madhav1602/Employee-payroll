@@ -2,9 +2,7 @@ package com.bridgelabz.employeepayroll.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.stereotype.Service;
+
 
 import java.lang.annotation.Target;
 import java.time.LocalDate;
@@ -22,7 +20,9 @@ public class EmployeeInfo {
     private String employeeName;
     private Double salary;
     private String gender;
-    private String startDate;
+    @Column(unique = true)
+    private String email;
+    private LocalDate startDate;
     public String profilePic;
 
     @ElementCollection

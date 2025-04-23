@@ -53,7 +53,7 @@ public class EmployeeService implements IEmployeeService{
 
         if (empDTO.getStartDate() != null) {
             log.debug("Updating start date for employee ID {}: {}", id, empDTO.getStartDate());
-            emp.setStartDate(empDTO.getStartDate().toString());
+            emp.setStartDate(empDTO.getStartDate());
         }
 
         if (empDTO.getProfilePic() != null) {

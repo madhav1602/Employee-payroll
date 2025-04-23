@@ -4,6 +4,7 @@ package com.bridgelabz.employeepayroll.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import java.util.Date;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,8 +24,8 @@ public class EmployeeDTO {
 
 
     @NotNull(message = "Date should not be null")
-    @JsonFormat(pattern = "dd MMM yyyy")
-    private String startDate;
+    @JsonFormat(shape=JsonFormat.Shape.STRING , pattern = "dd MMM yyyy", locale = "en")
+    private LocalDate startDate;
 
     @NotBlank(message = "profile pic can not be empty")
     private String profilePic;
@@ -33,7 +34,7 @@ public class EmployeeDTO {
     @Size(min = 1, message = "At least one department must be specified")
     private List<String> departments;
 
-    public EmployeeDTO(String name, Double salary, String gender, String startDate, String profilePic, List<String> departments) {
+    public EmployeeDTO(String name, Double salary, String gender, LocalDate startDate, String profilePic, List<String> departments) {
         this.name = name;
         this.salary = salary;
         this.gender=gender;

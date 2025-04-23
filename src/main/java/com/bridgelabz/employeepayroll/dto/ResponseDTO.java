@@ -7,8 +7,6 @@ public @Data class ResponseDTO {
     private String message;
     private HttpStatus status;
 
-
-
     public ResponseDTO(String message, HttpStatus status) {
         this.message = message;
         this.status=status;
