@@ -7,6 +7,7 @@ import com.bridgelabz.employeepayroll.model.EmployeeInfo;
 import com.bridgelabz.employeepayroll.model.User;
 import com.bridgelabz.employeepayroll.repository.UserRepository;
 import com.bridgelabz.employeepayroll.service.EmployeeService;
+import com.bridgelabz.employeepayroll.service.UserService;
 import com.bridgelabz.employeepayroll.util.JwtUtility;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -31,13 +32,9 @@ public class EmployeeController {
     private EmployeeService employeeservice;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private JwtUtility jwtUtility;
 
     // Update Employee using employeeID
     @PutMapping("/update/{id}")
@@ -59,15 +56,8 @@ public class EmployeeController {
     // Create Employee using post request
     @PostMapping("/post")
     public ResponseDTO post(@Valid @RequestBody EmployeeDTO employee){
-        EmployeeInfo emp = new EmployeeInfo();
-        emp.setEmployeeName(employee.getName());
-        emp.setSalary(employee.getSalary());
-        emp.setGender(employee.getGender());
-        emp.setDepartments(employee.getDepartments());
-        emp.setStartDate(employee.getStartDate());
-        log.info(String.valueOf(employee.getStartDate()));
-        emp.setProfilePic(employee.getProfilePic());
-        return employeeservice.createUser(emp);
+
+        return employeeservice.createUser(employee);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -78,34 +68,12 @@ public class EmployeeController {
 
     @PostMapping("/register")
     public ResponseDTO registerUser(@RequestBody User user){
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            userRepository.save(user);
-            return new ResponseDTO("User Registered successfully", HttpStatus.CREATED);
+           return userService.register(user);
     }
 
     @PostMapping("/login")
     public ResponseDTO loginUser(@RequestBody LoginRequestDTO loginRequest) {
-        Optional<User> optionalUser = userRepository.findByEmail(loginRequest.getEmail());
+        return userService.login(loginRequest);
 
-        if (optionalUser.isEmpty()) {
-            return new ResponseDTO("User not found", HttpStatus.NOT_FOUND);
-        }
-
-        User user = optionalUser.get();
-        boolean isPasswordValid = bCryptPasswordEncoder.matches(loginRequest.getPassword(), user.getPassword());
-
-        if (!isPasswordValid) {
-            return new ResponseDTO("Invalid credentials", HttpStatus.UNAUTHORIZED);
-        }
-
-        String jwtToken = jwtUtility.generateJwt(user.getEmail());
-        user.setToken(jwtToken);
-        userRepository.save(user);
-
-        return new ResponseDTO("Login successful and token generated", HttpStatus.OK);
     }
-
-
-
-
 }

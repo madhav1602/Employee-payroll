@@ -95,7 +95,15 @@ public class EmployeeService implements IEmployeeService{
 
 
     // service create employee
-    public ResponseDTO  createUser(EmployeeInfo emp){
+    public ResponseDTO  createUser(EmployeeDTO employee){
+        EmployeeInfo emp = new EmployeeInfo();
+        emp.setEmployeeName(employee.getName());
+        emp.setSalary(employee.getSalary());
+        emp.setGender(employee.getGender());
+        emp.setDepartments(employee.getDepartments());
+        emp.setStartDate(employee.getStartDate());
+        log.info(String.valueOf(employee.getStartDate()));
+        emp.setProfilePic(employee.getProfilePic());
         log.info("Creating new employee: {}", emp);
         employeerepository.save(emp);
         log.info("Employee created successfully: {}", emp.getEmployeeName());

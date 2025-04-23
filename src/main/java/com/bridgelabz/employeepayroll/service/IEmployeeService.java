@@ -17,5 +17,5 @@ public interface IEmployeeService {
     public EmployeeInfo getUserByID(Long id);
 
 
-    public ResponseDTO createUser(EmployeeInfo emp);
+    public ResponseDTO createUser(EmployeeDTO emp);
 }
